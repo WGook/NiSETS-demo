@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Adversarial Learning on Compressed Posterior Space for Non-Iterative Score-based End-to-End Text-to-Speech</title>
+<meta name="generator" content="Jekyll v3.9.0">
+<meta property="og:title" content="Adversarial Learning on Compressed Posterior Space for Non-Iterative Score-based End-to-End Text-to-Speech">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://wgook.github.io/NiSETS-demo/">
+<meta property="og:url" content="https://wgook.github.io/NiSETS-demo/">
+<meta name="twitter:card" content="summary">
+<!-- End Jekyll SEO tag -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#157878">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body data-new-gr-c-s-check-loaded="14.1023.0" data-gr-ext-installed="">
+<section class="page-header">
+</section>
+
+<section class="main-content">
+<h1 id=""><center> Adversarial Learning on Compressed Posterior Space for Non-Iterative Score-based End-to-End Text-to-Speech </center></h1>
+
+<center> Won-Gook Choi<sup>1</sup>, Donghyun Seong<sup>1</sup>, and Joon-Hyuk Chang<sup>1</sup></center>
+<br>
+<center> <sup>1</sup> Department of Electronic Engineering, Hanyang University, Seoul, Republic of Korea</center>
+
+<h2 id="abstract">Abstract</h2>
+<p>Score-based generative models have shown the real-like quality of synthesized speech in the text-to-speech (TTS) area.
+  However, the critical artifact of score-based models is the requirement of a high computational cost due to the iterative sampling algorithm, and it also makes it difficult to fine-tune the score-based TTS-optimized vocoder.
+  In this study, we propose a method of joint training the score-based TTS model and HiFi-GAN using the compressed log-mel features, and it guarantees a significant speech quality even on the non-iterative sampling.
+  As a result, the proposed method overcomes some digital artifacts of the synthesized audios compared to the non-iterative sampling of Grad-TTS.
+  Also, the non-iterative sampling can generate speech faster than other end-to-end TTS models with fewer parameters.</p>
+
+<h2 id="abstract">Official Source Code</h2>
+<p>https://github.com/WGook/NiSETS/tree/main</p>
+<h2><p class="toc_title">Contents</p></h2>
+<div id="toc_container">
+<ul>
+  <li><a href="#1">Model Architecture</a></li>
+  <li><a href="#2">[Samples] Single Speaker</a></li>
+  <li><a href="#3">[Samples] Multi-Speaker</a></li>
+  <li><a href="#4">4.3 Unseen data</a></li>
+</ul>
+</div>
+
+<a name="1"><h2>Model Architecture</h2></a>
+<div>
+  <br />
+  <p style="text-align: center">
+    <img src="./model_architecture.png" width="1200" height="600"/>
+  </p>
+  <p>
+  <figcaption style="text-align:center;">
+    <font size=3>
+      Fig.1 The overall architecture for the TSP-TTS.
+    </font>
+  </figcaption><br><br>
+  </p>
+</div>
+
+
+<a name="2"><h2>4.1 Naturalness, 4.2 Ablation study</h2></a>
+<h3>Angry</h3>
+<p><b>Text (Kr): 고모는 조카딸의 품행 나쁜 것을 밉게 보았던 모양이지.</b><br>Translation: The aunt must have hated her niece's bad behavior.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>GT</strong></th>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M4</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+      <th style="text-align: center"><strong>M6</strong></th>
+      <th style="text-align: center"><strong>M7</strong></th>
+      <th style="text-align: center"><strong>M8</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Anxiety</h3>
+<p><b>Text (Kr): 물건을 팔려면 노력을 해야 해요.</b><br>Translation: You have to make an effort to sell things.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>GT</strong></th>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M4</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+      <th style="text-align: center"><strong>M6</strong></th>
+      <th style="text-align: center"><strong>M7</strong></th>
+      <th style="text-align: center"><strong>M8</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_anx_000956.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Embarrassment</h3>
+<p><b>Text (Kr): 이 많은 선물은 다 뭐예요?</b><br>Translation: What are all these presents?</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>GT</strong></th>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M4</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+      <th style="text-align: center"><strong>M6</strong></th>
+      <th style="text-align: center"><strong>M7</strong></th>
+      <th style="text-align: center"><strong>M8</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_emb_000081.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Hurt</h3>
+<p><b>Text (Kr): 나는 온몸이 아파 자는 것은 생각도 할 수 없었다.</b><br>Translation: I couldn't even think of sleeping because my whole body was hurting.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>GT</strong></th>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M4</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+      <th style="text-align: center"><strong>M6</strong></th>
+      <th style="text-align: center"><strong>M7</strong></th>
+      <th style="text-align: center"><strong>M8</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_hur_001411.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Joy</h3>
+<p><b>Text (Kr): 어깨를 나란히 하고 세계를 형성하려는 정의에 감격했다.</b><br>Translation: I was moved by the justice that stood shoulder to shoulder and shaped the world.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>GT</strong></th>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M4</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+      <th style="text-align: center"><strong>M6</strong></th>
+      <th style="text-align: center"><strong>M7</strong></th>
+      <th style="text-align: center"><strong>M8</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_hap_000130.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Neutrality</h3>
+<p><b>Text (Kr): 그는 용감히 바닷가로 뛰어간다, 이따금 뒤를 돌아보면서.</b><br>Translation: He bravely runs to the beach, looking back from time to time.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>GT</strong></th>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M4</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+      <th style="text-align: center"><strong>M6</strong></th>
+      <th style="text-align: center"><strong>M7</strong></th>
+      <th style="text-align: center"><strong>M8</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_neu_001085.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Sadness</h3>
+<p><b>Text (Kr): 돌아가진 아빠는 자식을 예뻐하는 게 당연하다고 말하는 사람이었습니다.</b><br>Translation: My late father was a person who said that it was natural to cherish children.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>GT</strong></th>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M4</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+      <th style="text-align: center"><strong>M6</strong></th>
+      <th style="text-align: center"><strong>M7</strong></th>
+      <th style="text-align: center"><strong>M8</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_sad_000434.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<br>
+<hr>
+<a name="3"><h2>4.3 Unseen data</h2></a>
+<h3>Angry</h3>
+<p><b>Text (Kr): 나보다도 모르는 게 말이 돼?</b><br>Translation: Does it make sense that you don't know more than I do?</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Tacotron2_GST/CHY_ang_000842.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/StyleSpeech/CHY_ang_000842.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Meta-StyleSpeech/CHY_ang_000842.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Proposed_model/CHY_ang_000842.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Anxiety</h3>
+<p><b>Text (Kr): 손을 뿌리치고 소리치며 달려가 험상궂게 생긴 사람들을 데리고 왔습니다.</b><br>Translation: They shook off their hands and ran shouting, bringing with them some scary-looking people.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Tacotron2_GST/CHY_anx_000225.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/StyleSpeech/CHY_anx_000225.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Meta-StyleSpeech/CHY_anx_000225.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Proposed_model/CHY_anx_000225.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Embarrassment</h3>
+<p><b>Text (Kr): 제 동생이 아파 동생 눈을 살펴보셨어요.</b><br>Translation: My younger brother was sick, so he looked into his eyes.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Tacotron2_GST/CHY_emb_001169.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/StyleSpeech/CHY_emb_001169.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Meta-StyleSpeech/CHY_emb_001169.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Proposed_model/CHY_emb_001169.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Hurt</h3>
+<p><b>Text (Kr): 기계방아에 대한 원한이 영감의 가슴속에 불을 부어주는 것이었다.</b><br>Translation: Resentment against the mechanical mill poured fire into the old man's heart.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Tacotron2_GST/CHY_hur_001449.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/StyleSpeech/CHY_hur_001449.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Meta-StyleSpeech/CHY_hur_001449.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Proposed_model/CHY_hur_001449.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Joy</h3>
+<p><b>Text (Kr): 동생 뼈는 아주 튼튼하구나!</b><br>Translation: Your brother's bones are very strong!</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Tacotron2_GST/CHY_hap_000625.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/StyleSpeech/CHY_hap_000625.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Meta-StyleSpeech/CHY_hap_000625.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Proposed_model/CHY_hap_000625.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Neutrality</h3>
+<p><b>Text (Kr): 속으로는 더 이상 쓸 이야깃거리가 없다고 생각하고 있었습니다.</b><br>Translation: Inside, I thought there was nothing more to write about.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Tacotron2_GST/CHY_neu_000436.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/StyleSpeech/CHY_neu_000436.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Meta-StyleSpeech/CHY_neu_000436.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Proposed_model/CHY_neu_000436.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+<h3>Sadness</h3>
+<p><b>Text (Kr): 언니와 나는 둘이서 침실에 있었습니다.</b><br>Translation: My sister and I were in the bedroom together.</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>M1</strong></th>
+      <th style="text-align: center"><strong>M2</strong></th>
+      <th style="text-align: center"><strong>M3</strong></th>
+      <th style="text-align: center"><strong>M5</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Tacotron2_GST/CHY_sad_000978.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/StyleSpeech/CHY_sad_000978.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Meta-StyleSpeech/CHY_sad_000978.wav" controls="" preload=""></audio></td> -->
+      <!-- <td style="text-align: left"><audio src="samples/Table2/Proposed_model/CHY_sad_000978.wav" controls="" preload=""></audio></td> -->
+  </tbody>
+</table>
+<br>
+
+
+<a name="4"><h2>Evaluation on different expressive TTS models</h2></a>
+<p>
+GT: Ground-truth<br>
+M1: Tacotron2-GST<br>
+M2: StyleSpeech<br>
+M3: Meta-StyleSpeech<br>
+M4: FastSpeech2-GST<br>
+M5: Proposed model<br>
+M6: Proposed model (w/o sine generator)<br>
+M7: Proposed model (w/o vector quantization)<br>
+M8: Proposed model (w/o style-to-text alignment)<br>
+</p>
+<br>
+<hr>
+
+<footer class="site-footer">
+<span class="site-footer-credits">This page was generated by <a href="https://pages.github.com/">GitHub Pages</a>.</span>
+</footer>
+</section>
+</body>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+</html>
