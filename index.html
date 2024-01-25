@@ -63,34 +63,28 @@
 </div>
 
 
-<a name="2"><h2>4.1 Naturalness, 4.2 Ablation study</h2></a>
-<h3>Angry</h3>
-<p><b>Text (Kr): 고aa모는 조카딸의 품행 나쁜 것을 밉게 보았던 모양이지.</b><br>Translation: The aunt must have hated her niece's bad behavior.</p>
+<a name="2"><h2>[Samples] Single Speaker</h2></a>
+<h3>Sample 1</h3>
+<p><b>Script: blablabla.</b></p>
 <table>
   <thead>
     <tr>
       <th style="text-align: center"><strong>GT</strong></th>
-      <th style="text-align: center"><strong>M1</strong></th>
-      <th style="text-align: center"><strong>M2</strong></th>
-      <th style="text-align: center"><strong>M3</strong></th>
-      <th style="text-align: center"><strong>M4</strong></th>
-      <th style="text-align: center"><strong>M5</strong></th>
-      <th style="text-align: center"><strong>M6</strong></th>
-      <th style="text-align: center"><strong>M7</strong></th>
-      <th style="text-align: center"><strong>M8</strong></th>
+      <th style="text-align: center"><strong>VITS</strong></th>
+      <th style="text-align: center"><strong>JETS</strong></th>
+      <th style="text-align: center"><strong>GradTTS+HiFiGAN</strong></th>
+      <th style="text-align: center"><strong>GradTTS+HiFiGAN(FT)</strong></th>
+      <th style="text-align: center"><strong>NiSETS</strong></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <!-- <td style="text-align: left"><audio src="samples/Table1/GT/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/Tacotron2_GST/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/StyleSpeech/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/Meta-StyleSpeech/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/FastSpeech2_GST/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_sine/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_vq/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
-      <!-- <td style="text-align: left"><audio src="samples/Table1/proposed_model_wo_align/OES_ang_000594.wav" controls="" preload=""></audio></td> -->
+      <td style="text-align: left"><audio src="samples/LJSpeech/GroundTruth/gt0.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/LJSpeech/LJ_VITS/vits0.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/LJSpeech/LJ_JETS/jets0.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/LJSpeech/LJ_GradTTS/grad0.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/LJSpeech/LJ_GradTTS-FT/gradft0.wav" controls="" preload=""></audio></td>
+      <td style="text-align: left"><audio src="samples/LJSpeech/LJ_NiSETS/nisets0.wav" controls="" preload=""></audio></td>
   </tbody>
 </table>
 <br>
@@ -276,7 +270,7 @@
 <br>
 <br>
 <hr>
-<a name="3"><h2>4.3 Unseen data</h2></a>
+<a name="3"><h2>[Samples] Multi-Speaker</h2></a>
 <h3>Angry</h3>
 <p><b>Text (Kr): 나보다도 모르는 게 말이 돼?</b><br>Translation: Does it make sense that you don't know more than I do?</p>
 <table>
